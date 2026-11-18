@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TRENZO – Everything You Love, One Place</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fffafc;--card:#fff;--ink:#17101f;--mute:#6d6277;--pri:#6a2fb0;--pri2:#4a1d82;--pink:#fbd9e8;--line:#eadff0}
+[data-theme=dark]{--bg:#0e0a14;--card:#1a1324;--ink:#f6eefb;--mute:#a99bb8;--pri:#a678e8;--pri2:#c9a8f5;--pink:#3a2338;--line:#2d2240}
+*{box-sizing:border-box;margin:0}
+body{font-family:"Bricolage Grotesque",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--pri);outline-offset:2px}
+header{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center;padding:10px 4vw;flex-wrap:wrap}
+.logo{font-weight:800;font-size:1.6rem;letter-spacing:.04em;color:var(--pri);text-decoration:none}
+.logo small{display:block;font-size:.6rem;font-weight:600;letter-spacing:.2em;color:var(--mute)}
+#q{flex:1;min-width:160px;padding:10px 14px;border:1px solid var(--line);border-radius:99px;background:var(--bg)}
+.ib{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:8px 14px}
+.ib b{background:var(--pri);color:#fff;border-radius:99px;padding:0 7px;margin-left:4px;font-size:.8rem}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center;padding:6vw 4vw;background:linear-gradient(120deg,var(--pink),var(--bg))}
+.hero h1{font-size:clamp(2.2rem,6vw,4.6rem);line-height:1.02;font-weight:800;max-width:11ch}
+.hero p{color:var(--mute);margin:14px 0 22px;max-width:44ch}
+.btn{background:var(--pri);color:#fff;border:0;border-radius:99px;padding:12px 24px;font-weight:600}
+.btn.alt{background:transparent;color:var(--pri);border:1.5px solid var(--pri);margin-left:8px}
+.heroart{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.heroart img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:18px}
+.heroart img:nth-child(2){margin-top:28px}
+section{padding:28px 4vw}
+h2{font-size:1.5rem;margin-bottom:12px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px}
+.chip{white-space:nowrap;border:1px solid var(--line);background:var(--card);border-radius:99px;padding:7px 14px}
+.chip.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+.bar select,.bar input{padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.card img{width:100%;aspect-ratio:1;object-fit:cover;background:var(--pink)}
+.card div{padding:12px;display:flex;flex-direction:column;gap:4px;flex:1}
+.card h3{font-size:.98rem;font-weight:600}
+.pr b{font-size:1.1rem}.pr s{color:var(--mute);margin-left:6px;font-size:.85rem}.pr em{color:var(--pri);font-style:normal;font-size:.85rem;margin-left:6px}
+.tag{font-size:.75rem;color:var(--mute)}
+.row{display:flex;gap:6px;margin-top:auto;padding-top:8px}
+.row .btn{flex:1;padding:8px}
+.heart{border:1px solid var(--line);background:var(--card);border-radius:10px;width:42px}
+.heart.on{background:var(--pink)}
+.quick{background:var(--pri2);color:#fff;border-radius:22px;padding:22px;margin:0 4vw}
+.quick h2{color:#fff}.quick p{opacity:.9;max-width:62ch}
+.notice{background:var(--pink);border-radius:12px;padding:10px 14px;font-size:.9rem;margin-top:12px;color:var(--ink)}
+.drawer{position:fixed;inset:0 0 0 auto;width:min(420px,100%);background:var(--card);z-index:40;transform:translateX(100%);transition:transform .25s;padding:18px;overflow:auto;border-left:1px solid var(--line)}
+.drawer.open{transform:none}
+.li{display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.li img{width:56px;height:56px;border-radius:10px;object-fit:cover}
+.qty button{width:26px;height:26px;border-radius:8px;border:1px solid var(--line);background:var(--bg)}
+.tot{display:flex;justify-content:space-between;padding:3px 0}
+#chat{position:fixed;right:16px;bottom:16px;z-index:30}
+#chatbox{display:none;width:min(340px,92vw);background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:8px}
+#chatbox.open{display:block}
+#msgs{max-height:240px;overflow:auto;font-size:.92rem;display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+.m{background:var(--bg);border-radius:10px;padding:6px 10px}.m.u{background:var(--pink);align-self:flex-end}
+footer{padding:28px 4vw;border-top:1px solid var(--line);color:var(--mute);font-size:.9rem;margin-top:24px}
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;opacity:0;transition:opacity .2s;z-index:50;pointer-events:none}
+#toast.on{opacity:1}
+@media(max-width:760px){.hero{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#">TRENZO<small id="brand">Shop • Style • Discover</small></a>
+  <input id="q" type="search" placeholder="Search products" aria-label="Search products">
+  <button class="ib" id="lang">ಕನ್ನಡ</button>
+  <button class="ib" id="theme" aria-label="Toggle dark mode">🌙</button>
+  <button class="ib" id="wishBtn">♡ <b id="wc">0</b></button>
+  <button class="ib" id="cartBtn">🛒 <b id="cc">0</b></button>
+</header>
+
+<div class="hero">
+  <div>
+    <h1 id="h1">Everything You Love, One Place.</h1>
+    <p id="sub">Fashion, sarees, groceries, beauty, gadgets and K-pop merch in one store.</p>
+    <button class="btn" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})" id="shopNow">Shop now</button>
+    <button class="btn alt" onclick="pick('saree')" id="sw">Saree World</button>
+  </div>
+  <div class="heroart" id="heroart"></div>
+</div>
+
+<section id="shop">
+  <h2 id="hCat">Shop by category</h2>
+  <div class="chips" id="chips"></div>
+  <div class="bar">
+    <select id="sort" aria-label="Sort">
+      <option value="pop">Popular</option><option value="lo">Price: low to high</option>
+      <option value="hi">Price: high to low</option><option value="rate">Top rated</option><option value="new">Newest</option>
+    </select>
+    <input id="max" type="number" min="0" placeholder="Max price ₹">
+    <label><input type="checkbox" id="stock"> In stock only</label>
+  </div>
+  <div class="grid" id="grid"></div>
+  <p class="tag" id="count" style="margin-top:12px"></p>
+</section>
+
+<div class="quick" id="quick">
+  <h2>TRENZO QUICK</h2>
+  <p>Your Daily Needs, Delivered in 10 Minutes!</p>
+  <p class="notice">10-minute delivery needs real partner stores, stock feeds and delivery riders. Until those are connected, TRENZO QUICK shows groceries for browsing only and no delivery time is promised.</p>
+  <div class="bar" style="margin-bottom:0"><button class="btn" style="background:#fff;color:var(--pri2)" onclick="pick('grocery')">Browse groceries</button></div>
+</div>
+
+<section>
+  <h2>Recently viewed</h2>
+  <div class="grid" id="recent"></div>
+</section>
+
+<footer>
+  <b>TRENZO</b> – Everything You Love, One Place.<br>
+  Help · Returns and refunds · Privacy · Contact: support@your-domain.com (replace) · Instagram · YouTube
+</footer>
+
+<aside class="drawer" id="cart" aria-label="Cart">
+  <div style="display:flex;justify-content:space-between"><h2 id="hCart">Your cart</h2><button class="ib" onclick="drawer(0)">Close</button></div>
+  <div id="lines"></div>
+  <div style="margin-top:12px;display:flex;gap:6px"><input id="code" placeholder="Coupon code" style="flex:1;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--bg)"><button class="ib" onclick="coupon()">Apply</button></div>
+  <div id="totals" style="margin-top:12px"></div>
+  <button class="btn" style="width:100%;margin-top:10px" onclick="checkout()">Checkout</button>
+  <p class="notice" id="payNote"></p>
+</aside>
+
+<div id="chat">
+  <div id="chatbox">
+    <div id="msgs"><div class="m">Hi! Tell me what you need, e.g. “saree under 5000” or “BTS gift”.</div></div>
+    <div style="display:flex;gap:6px"><input id="ci" placeholder="Ask TRENZO" style="flex:1;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--bg)"><button class="btn" id="cs" style="padding:8px 14px">Send</button></div>
+    <p class="tag" style="margin-top:6px">Keyword helper. For a real AI assistant, connect the Claude API through a Vercel function (see README notes).</p>
+  </div>
+  <button class="btn" id="chatBtn">✨ Ask TRENZO</button>
+</div>
+<div id="toast" role="status"></div>
+
+<script>
+/* ---------- Data ---------- */
+const C=[
+["women","Women’s Fashion","ಮಹಿಳಾ ಫ್ಯಾಶನ್","👗",330],["men","Men’s Fashion","ಪುರುಷರ ಫ್ಯಾಶನ್","👔",215],
+["kids","Kids’ Fashion","ಮಕ್ಕಳ ಫ್ಯಾಶನ್","🧸",45],["saree","Saree World","ಸೀರೆ ಲೋಕ","🥻",340],
+["shoes","Footwear","ಪಾದರಕ್ಷೆ","👟",20],["jewel","Jewellery","ಆಭರಣ","💍",48],
+["beauty","Makeup & Beauty","ಮೇಕಪ್","💄",345],["skin","Skincare","ಚರ್ಮದ ಆರೈಕೆ","🧴",160],
+["tech","Electronics","ಎಲೆಕ್ಟ್ರಾನಿಕ್ಸ್","🎧",230],["home","Home & Kitchen","ಮನೆ ಮತ್ತು ಅಡುಗೆ","🍳",30],
+["furn","Furniture","ಪೀಠೋಪಕರಣ","🛋️",25],["grocery","TRENZO QUICK Groceries","ದಿನಸಿ","🥦",120],
+["books","Books & Stationery","ಪುಸ್ತಕಗಳು","📚",35],["toys","Toys & Games","ಆಟಿಕೆಗಳು","🎲",50],
+["sport","Sports & Fitness","ಕ್ರೀಡೆ","🏏",150],["travel","Travel","ಪ್ರಯಾಣ","🧳",200],
+["pet","Pet Supplies","ಸಾಕುಪ್ರಾಣಿ","🐾",28],["gift","Gifts","ಉಡುಗೊರೆ","🎁",330],
+["music","Musical Instruments","ಸಂಗೀತ ವಾದ್ಯ","🎸",15],["digital","Digital Products","ಡಿಜಿಟಲ್","💾",210],
+["kpop","K-pop World","ಕೆ-ಪಾಪ್","🎤",290]];
+const RAW=`women|Floral Midi Dress|1499|2199|Cotton blend
+women|Linen Co-ord Set|1899|2799|Linen
+women|Kurti with Palazzo|1299|1899|Cotton
+men|Oxford Button Shirt|1199|1799|Cotton
+men|Slim Fit Jeans|1699|2499|Denim
+men|Bomber Jacket|2499|3499|Polyester
+kids|Printed Cotton Frock|699|999|Cotton
+kids|Dino Tee and Shorts Set|599|899|Cotton
+saree|Mysore Silk Saree – Royal Purple|6499|8999|Pure Mysore silk
+saree|Kanchipuram Silk – Temple Border|14999|19999|Kanchipuram silk
+saree|Ilkal Saree – Kasuti Pallu|3299|4299|Cotton-silk
+saree|Molakalmuru Saree – Hand-woven|4799|5999|Silk
+saree|Banarasi Georgette Saree|7999|10999|Georgette
+saree|Cotton Saree – Block Print|1299|1799|Cotton
+saree|Bridal Red Silk Saree|18999|24999|Silk
+saree|Party-wear Sequin Saree|3999|5499|Net
+shoes|Everyday Running Shoes|2299|3299|Mesh
+shoes|Leather Loafers|2799|3999|Leather
+shoes|Block Heel Sandals|1499|2199|Synthetic
+jewel|Kundan Choker Set|1899|2599|Alloy
+jewel|Silver Jhumkas|999|1499|Silver-plated
+jewel|Layered Pendant Necklace|799|1199|Gold-tone
+beauty|Matte Lipstick – Rosewood|599|799|Shade 03
+beauty|Cushion Foundation|1199|1599|SPF 30
+beauty|Blush Palette – Soft Pink|899|1299|4 shades
+skin|Vitamin C Serum 30 ml|649|899|Daily use
+skin|Gel Moisturiser 100 g|399|549|All skin types
+skin|Mineral Sunscreen SPF 50|549|749|Lightweight
+tech|Wireless Earbuds|2499|3999|Bluetooth 5.3
+tech|Smartwatch 1.8 in|3499|5499|Amoled
+tech|20000 mAh Power Bank|1699|2299|Fast charge
+home|Non-stick Kadai 24 cm|899|1399|Induction base
+home|Glass Storage Jars (6)|749|999|Airtight
+furn|Solid Wood Side Table|3499|4999|Sheesham
+furn|Fabric Accent Chair|6999|9499|Lavender
+grocery|Alphonso Mangoes 1 kg|399|499|Fresh
+grocery|Tomato 500 g|35|45|Fresh
+grocery|Toned Milk 1 L|58|62|Fresh dairy
+grocery|Brown Bread 400 g|45|50|Bakery
+grocery|Sona Masoori Rice 5 kg|379|450|Grains
+grocery|Sunflower Oil 1 L|149|175|Cooking oil
+grocery|Dark Chocolate 100 g|180|220|Snacks
+grocery|Floor Cleaner 1 L|165|199|Household
+books|Ruled Notebook Pack (4)|249|349|A5
+books|Gel Pen Set (10)|199|299|0.5 mm
+toys|Wooden Building Blocks|799|1199|50 pieces
+toys|Strategy Board Game|999|1499|Ages 8+
+sport|Yoga Mat 6 mm|699|999|Anti-slip
+sport|Adjustable Dumbbells 10 kg|1999|2899|Pair
+travel|Cabin Trolley Bag 55 cm|2999|4499|Hard shell
+travel|Packing Cubes (5)|599|899|Nylon
+pet|Dog Chew Toy Set|349|499|Rubber
+pet|Cat Scratching Post|899|1299|Sisal
+gift|Personalised Name Mug|399|599|Ceramic
+gift|Gift Hamper – Dry Fruits|1499|1999|Box of 6
+music|Acoustic Guitar 38 in|4999|6999|Beginner
+music|Ukulele 21 in|1999|2799|Soprano
+digital|Photo Editing Presets Pack|299|499|Download
+digital|Budget Planner Template|149|249|Download
+kpop|BTS Light Stick Style Lamp (fan-made)|1499|1999|Fan-made
+kpop|BLACKPINK Photocard Set (fan-made)|499|699|Fan-made
+kpop|K-pop Group Poster Pack|399|599|Fan-made
+kpop|Album Display Shelf|1199|1699|Accessory`;
+const P=RAW.split("\n").map((l,i)=>{const[c,n,p,m,d]=l.split("|");return{id:"p"+(i+1),c,n,p:+p,m:+m,d,r:+(3.8+((i*7)%12)/10).toFixed(1),pop:(i*37)%100,st:i%11!==0,i}});
+const T={en:{brand:"Shop • Style • Discover",h1:"Everything You Love, One Place.",sub:"Fashion, sarees, groceries, beauty, gadgets and K-pop merch in one store.",shopNow:"Shop now",sw:"Saree World",hCat:"Shop by category",hCart:"Your cart",add:"Add to cart",lang:"ಕನ್ನಡ"},
+kn:{brand:"ಶಾಪ್ • ಸ್ಟೈಲ್ • ಡಿಸ್ಕವರ್",h1:"ನೀವು ಇಷ್ಟಪಡುವ ಎಲ್ಲವೂ, ಒಂದೇ ಸ್ಥಳದಲ್ಲಿ.",sub:"ಫ್ಯಾಶನ್, ಸೀರೆ, ದಿನಸಿ, ಬ್ಯೂಟಿ, ಗ್ಯಾಜೆಟ್ ಮತ್ತು ಕೆ-ಪಾಪ್ ಒಂದೇ ಅಂಗಡಿಯಲ್ಲಿ.",shopNow:"ಈಗ ಖರೀದಿಸಿ",sw:"ಸೀರೆ ಲೋಕ",hCat:"ವರ್ಗದ ಪ್ರಕಾರ ಖರೀದಿಸಿ",hCart:"ನಿಮ್ಮ ಕಾರ್ಟ್",add:"ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಿ",lang:"English"}};
+
+/* ---------- State ---------- */
+const $=s=>document.querySelector(s);
+const ls=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
+const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}};
+let S={cat:"all",lang:ls("lang","en"),cart:ls("cart",{}),wish:ls("wish",[]),recent:ls("recent",[]),disc:0,theme:ls("theme","light")};
+const cat=id=>C.find(x=>x[0]===id);
+const inr=n=>"₹"+Math.round(n).toLocaleString("en-IN");
+const toast=t=>{const e=$("#toast");e.textContent=t;e.classList.add("on");setTimeout(()=>e.classList.remove("on"),1800)};
+
+/* ---------- Images ----------
+   Looks for /images/<id>.jpg (your AI-generated photos). If missing, draws a placeholder. */
+function art(p){const c=cat(p.c)||C[0];const h=(c[4]+p.i*17)%360;
+const a=`hsl(${h},55%,42%)`,b="rgba(255,255,255,.9)",d=`hsl(${(h+40)%360},65%,64%)`;
+const M={
+women:`<path d='M180 80h40l10 70 40 170H130l40-170z' fill='${a}'/><rect x='172' y='150' width='56' height='10' fill='${b}'/>`,
+men:`<path d='M140 100l60 20 60-20 60 50-35 35-20-15v140H135V170l-20 15-35-35z' fill='${a}'/><path d='M170 105l30 40 30-40' stroke='${b}' stroke-width='8' fill='none'/>`,
+kids:`<g transform='translate(60 70) scale(.7)'><path d='M140 100l60 20 60-20 60 50-35 35-20-15v140H135V170l-20 15-35-35z' fill='${d}'/><circle cx='200' cy='220' r='30' fill='${b}'/></g>`,
+saree:`<path d='M110 90Q200 60 290 90L310 320H90z' fill='${a}'/><path d='M110 90Q200 60 290 90L300 140Q200 110 100 140z' fill='${d}'/><rect x='92' y='292' width='216' height='16' fill='${b}'/>`,
+shoes:`<path d='M80 250Q80 190 130 185L170 215Q230 205 290 230Q330 240 330 270V285H80z' fill='${a}'/><rect x='80' y='285' width='250' height='18' rx='9' fill='${b}'/>`,
+jewel:`<path d='M110 100Q200 280 290 100' stroke='${a}' stroke-width='8' fill='none'/><circle cx='200' cy='235' r='28' fill='${d}'/><circle cx='200' cy='235' r='12' fill='${b}'/>`,
+beauty:`<rect x='165' y='200' width='70' height='110' rx='10' fill='${a}'/><rect x='175' y='150' width='50' height='55' fill='${b}'/><path d='M175 150L200 95L225 150z' fill='${d}'/>`,
+skin:`<rect x='170' y='80' width='60' height='40' rx='8' fill='${a}'/><rect x='140' y='120' width='120' height='190' rx='28' fill='${b}'/><rect x='160' y='190' width='80' height='60' rx='8' fill='${d}'/>`,
+tech:`<circle cx='155' cy='200' r='42' fill='${a}'/><rect x='143' y='230' width='24' height='80' rx='12' fill='${a}'/><circle cx='245' cy='200' r='42' fill='${d}'/><rect x='233' y='230' width='24' height='80' rx='12' fill='${d}'/>`,
+home:`<path d='M110 170h180l-15 120q-5 25-30 25h-90q-25 0-30-25z' fill='${a}'/><rect x='95' y='150' width='210' height='22' rx='11' fill='${b}'/><rect x='290' y='200' width='55' height='14' rx='7' fill='${d}'/>`,
+furn:`<rect x='140' y='90' width='120' height='120' rx='20' fill='${a}'/><rect x='130' y='200' width='140' height='40' rx='12' fill='${d}'/><rect x='140' y='240' width='14' height='80' fill='${a}'/><rect x='246' y='240' width='14' height='80' fill='${a}'/>`,
+grocery:`<circle cx='170' cy='230' r='70' fill='${a}'/><circle cx='235' cy='230' r='70' fill='${d}'/><path d='M200 160q10-50 45-60-5 40-45 60z' fill='${b}'/>`,
+books:`<rect x='110' y='250' width='180' height='40' rx='6' fill='${a}'/><rect x='125' y='205' width='160' height='40' rx='6' fill='${d}'/><rect x='105' y='160' width='170' height='40' rx='6' fill='${b}'/>`,
+toys:`<rect x='110' y='230' width='80' height='80' rx='10' fill='${a}'/><rect x='200' y='230' width='80' height='80' rx='10' fill='${d}'/><rect x='155' y='145' width='80' height='80' rx='10' fill='${b}'/>`,
+sport:`<rect x='100' y='160' width='30' height='100' rx='8' fill='${a}'/><rect x='270' y='160' width='30' height='100' rx='8' fill='${a}'/><rect x='130' y='195' width='140' height='30' fill='${d}'/><rect x='80' y='180' width='20' height='60' rx='6' fill='${b}'/><rect x='300' y='180' width='20' height='60' rx='6' fill='${b}'/>`,
+travel:`<rect x='110' y='140' width='180' height='170' rx='22' fill='${a}'/><rect x='165' y='100' width='70' height='44' rx='12' stroke='${d}' stroke-width='10' fill='none'/><rect x='145' y='140' width='14' height='170' fill='${b}'/><rect x='241' y='140' width='14' height='170' fill='${b}'/>`,
+pet:`<ellipse cx='200' cy='250' rx='55' ry='45' fill='${a}'/><circle cx='130' cy='190' r='24' fill='${d}'/><circle cx='175' cy='145' r='24' fill='${d}'/><circle cx='225' cy='145' r='24' fill='${d}'/><circle cx='270' cy='190' r='24' fill='${d}'/>`,
+gift:`<rect x='115' y='170' width='170' height='140' rx='10' fill='${a}'/><rect x='105' y='140' width='190' height='40' rx='10' fill='${d}'/><rect x='187' y='140' width='26' height='170' fill='${b}'/><path d='M200 140q-50-60-70-20t70 20q50-60 70-20t-70 20z' fill='${b}'/>`,
+music:`<circle cx='170' cy='260' r='60' fill='${a}'/><circle cx='215' cy='215' r='45' fill='${a}'/><circle cx='185' cy='245' r='18' fill='${b}'/><rect x='225' y='80' width='24' height='140' rx='6' transform='rotate(40 237 150)' fill='${d}'/>`,
+digital:`<rect x='95' y='110' width='210' height='140' rx='14' fill='${a}'/><rect x='110' y='125' width='180' height='110' rx='6' fill='${b}'/><rect x='175' y='250' width='50' height='40' fill='${d}'/><rect x='150' y='290' width='100' height='14' rx='7' fill='${d}'/>`,
+kpop:`<rect x='185' y='170' width='30' height='150' rx='12' fill='${a}'/><circle cx='200' cy='130' r='60' fill='${d}'/><path d='M200 95l12 24 26 4-19 18 5 26-24-13-24 13 5-26-19-18 26-4z' fill='${b}'/>`};
+const x=(p.i*53)%160;
+const s=`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'><defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='hsl(205,75%,78%)'/><stop offset='.7' stop-color='hsl(${h},75%,93%)'/></linearGradient><radialGradient id='s'><stop offset='0' stop-color='#fff6d6'/><stop offset='1' stop-color='#fff6d6' stop-opacity='0'/></radialGradient><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='${p.i}'/><feColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .2 0 0 0 .1 0'/></filter></defs><rect width='400' height='400' fill='url(#g)'/><circle cx='${300-x/2}' cy='80' r='90' fill='url(#s)'/><g fill='#fff' opacity='.92'><ellipse cx='${70+x}' cy='70' rx='60' ry='20'/><ellipse cx='${110+x}' cy='58' rx='42' ry='22'/><ellipse cx='${260-x/2}' cy='125' rx='50' ry='16'/><ellipse cx='${290-x/2}' cy='113' rx='32' ry='16'/></g><path d='M0 300Q90 240 190 290T400 270V400H0z' fill='hsl(160,38%,72%)'/><path d='M0 320Q120 280 230 322T400 308V400H0z' fill='hsl(135,42%,58%)'/><path d='M0 345Q140 320 260 352T400 340V400H0z' fill='hsl(115,45%,46%)'/><g stroke='hsl(115,50%,34%)' stroke-width='3' stroke-linecap='round' opacity='.7'><path d='M40 372l-4-12M46 372l2-14M330 368l-3-12M337 368l3-14M370 380l-3-12'/></g><g fill='${d}' opacity='.9'><circle cx='60' cy='355' r='4'/><circle cx='345' cy='372' r='4'/><circle cx='300' cy='385' r='3'/></g><ellipse cx='200' cy='318' rx='95' ry='11' fill='#1b3a1b' opacity='.18'/><g transform='translate(32 10) scale(.84)'>${M[p.c]||M.gift}</g><rect width='400' height='400' filter='url(#n)'/></svg>`;
+return "data:image/svg+xml;utf8,"+encodeURIComponent(s)}
+const img=p=>`<img loading="lazy" alt="${p.n}" src="/images/${p.id}.jpg" onerror="this.onerror=null;this.src='${art(p).replace(/'/g,"%27")}'">`;
+
+/* ---------- Render ---------- */
+function t(k){return T[S.lang][k]}
+function applyLang(){document.documentElement.lang=S.lang;for(const k of["brand","h1","sub","shopNow","sw","hCat","hCart"])$("#"+k).textContent=t(k);$("#lang").textContent=t("lang");renderChips();render()}
+function renderChips(){$("#chips").innerHTML=[["all","All","ಎಲ್ಲಾ","✨"],...C].map(c=>`<button class="chip ${S.cat===c[0]?"on":""}" onclick="pick('${c[0]}')">${S.lang==="kn"?c[2]:c[1]}</button>`).join("")}
+function pick(id){S.cat=id;renderChips();render();document.getElementById("shop").scrollIntoView({behavior:"smooth"})}
+function card(p){const off=Math.round(100-p.p/p.m*100);return`<article class="card">${img(p)}<div>
+<span class="tag">${cat(p.c)[S.lang==="kn"?2:1]}</span><h3>${p.n}</h3><span class="tag">${p.d} · ★ ${p.r}</span>
+<span class="pr"><b>${inr(p.p)}</b><s>${inr(p.m)}</s><em>${off}% off</em></span>
+${p.c==="kpop"?'<span class="tag">Fan-made / unofficial listing</span>':""}
+<span class="tag">${p.st?"In stock":"Out of stock"}</span>
+<div class="row" style="padding:8px 0 0"><button class="btn" ${p.st?"":"disabled style='opacity:.5'"} onclick="add('${p.id}')">${t("add")}</button><button class="heart ${S.wish.includes(p.id)?"on":""}" aria-label="Wishlist" onclick="wish('${p.id}')">♥</button></div>
+</div></article>`}
+function render(){
+ const q=$("#q").value.trim().toLowerCase(),mx=+$("#max").value||1e9,so=$("#stock").checked;
+ let L=P.filter(p=>(S.cat==="all"||p.c===S.cat)&&p.p<=mx&&(!so||p.st)&&(!q||(p.n+" "+p.d+" "+cat(p.c)[1]).toLowerCase().includes(q)));
+ const s=$("#sort").value;L.sort((a,b)=>s==="lo"?a.p-b.p:s==="hi"?b.p-a.p:s==="rate"?b.r-a.r:s==="new"?b.i-a.i:b.pop-a.pop);
+ $("#grid").innerHTML=L.map(card).join("")||"<p>No products match. Clear a filter or try another word.</p>";
+ $("#count").textContent=L.length+" products";
+ $("#recent").innerHTML=S.recent.map(id=>P.find(p=>p.id===id)).filter(Boolean).map(card).join("")||"<p class='tag'>Products you open will show up here.</p>";
+ $("#wc").textContent=S.wish.length;$("#cc").textContent=Object.values(S.cart).reduce((a,b)=>a+b,0);
+}
+["#q","#sort","#max","#stock"].forEach(s=>$(s).addEventListener("input",render));
+
+/* ---------- Cart, wishlist ---------- */
+function add(id){S.cart[id]=(S.cart[id]||0)+1;S.recent=[id,...S.recent.filter(x=>x!==id)].slice(0,4);persist();drawer(1);toast("Added to cart")}
+function wish(id){S.wish=S.wish.includes(id)?S.wish.filter(x=>x!==id):[...S.wish,id];persist()}
+function persist(){save("cart",S.cart);save("wish",S.wish);save("recent",S.recent);render();cartUI()}
+function qty(id,d){S.cart[id]=(S.cart[id]||0)+d;if(S.cart[id]<=0)delete S.cart[id];persist()}
+const CODES={TRENZO10:.1,WELCOME5:.05};
+function coupon(){const c=$("#code").value.trim().toUpperCase();if(CODES[c]){S.disc=CODES[c];toast("Coupon applied")}else{S.disc=0;toast("Invalid coupon code")}cartUI()}
+function sums(){const sub=Object.entries(S.cart).reduce((a,[id,n])=>a+P.find(p=>p.id===id).p*n,0);const d=sub*S.disc;const ship=sub===0||sub-d>=999?0:79;return{sub,d,ship,tot:sub-d+ship}}
+function cartUI(){const e=Object.entries(S.cart);
+ $("#lines").innerHTML=e.map(([id,n])=>{const p=P.find(x=>x.id===id);return`<div class="li">${img(p).replace("<img","<img style='width:56px;height:56px'")}<div><b>${p.n}</b><div class="tag">${inr(p.p)}</div><div class="qty"><button onclick="qty('${id}',-1)">−</button> ${n} <button onclick="qty('${id}',1)">+</button> <button onclick="qty('${id}',-99)" style="width:auto;padding:0 10px">Remove</button></div></div><b>${inr(p.p*n)}</b></div>`}).join("")||"<p class='tag'>Your cart is empty. Add something you love.</p>";
+ const s=sums();$("#totals").innerHTML=`<div class="tot"><span>Subtotal</span><span>${inr(s.sub)}</span></div><div class="tot"><span>Discount</span><span>−${inr(s.d)}</span></div><div class="tot"><span>Delivery (free over ₹999)</span><span>${inr(s.ship)}</span></div><div class="tot"><b>Total</b><b>${inr(s.tot)}</b></div>`}
+function drawer(o){$("#cart").classList.toggle("open",!!o);if(o)cartUI()}
+$("#cartBtn").onclick=()=>drawer(1);
+$("#wishBtn").onclick=()=>{if(!S.wish.length)return toast("Your wishlist is empty");$("#grid").innerHTML=S.wish.map(id=>card(P.find(p=>p.id===id))).join("");$("#count").textContent="Wishlist";document.getElementById("shop").scrollIntoView({behavior:"smooth"})};
+function checkout(){
+ if(!Object.keys(S.cart).length)return toast("Add items before checkout");
+ $("#payNote").textContent="Payment is not connected yet, so no order has been placed and nothing was charged. Connect Razorpay or Cashfree (needs your merchant keys) in a Vercel function to take UPI, cards and net banking. Order success must only show after the gateway confirms payment.";
+}
+
+/* ---------- Assistant (keyword helper, not a real AI) ---------- */
+function reply(q){q=q.toLowerCase();const m=q.match(/(\d[\d,]*)/);const mx=m?+m[1].replace(/,/g,""):1e9;
+ const kw={saree:"saree",silk:"saree",bts:"kpop",blackpink:"kpop",kpop:"kpop",lipstick:"beauty",makeup:"beauty",milk:"grocery",rice:"grocery",grocery:"grocery",shoe:"shoes",gift:"gift",phone:"tech",earbuds:"tech"};
+ const k=Object.keys(kw).find(w=>q.includes(w));let L=P.filter(p=>p.p<=mx&&(!k||p.c===kw[k])&&p.st);
+ if(!k)L=L.filter(p=>q.split(/\W+/).some(w=>w.length>3&&p.n.toLowerCase().includes(w)));
+ return L.length?"Try: "+L.slice(0,3).map(p=>p.n+" ("+inr(p.p)+")").join(", "):"I couldn’t find a match. Try a category or a budget, like “saree under 5000”."}
+function ask(){const v=$("#ci").value.trim();if(!v)return;$("#msgs").insertAdjacentHTML("beforeend",`<div class="m u"></div><div class="m"></div>`);const n=$("#msgs").children;n[n.length-2].textContent=v;n[n.length-1].textContent=reply(v);$("#ci").value="";$("#msgs").scrollTop=1e9}
+$("#cs").onclick=ask;$("#ci").addEventListener("keydown",e=>e.key==="Enter"&&ask());$("#chatBtn").onclick=()=>$("#chatbox").classList.toggle("open");
+
+/* ---------- Theme, language, init ---------- */
+$("#theme").onclick=()=>{S.theme=S.theme==="dark"?"light":"dark";document.documentElement.dataset.theme=S.theme;save("theme",S.theme)};
+$("#lang").onclick=()=>{S.lang=S.lang==="en"?"kn":"en";save("lang",S.lang);applyLang()};
+document.documentElement.dataset.theme=S.theme;
+$("#heroart").innerHTML=[P[8],P[22],P[25]].map(img).join("");
+applyLang();cartUI();
+</script>
+</body>
+</html>
